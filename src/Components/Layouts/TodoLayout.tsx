@@ -1,15 +1,22 @@
 import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import Button from "../Button/Button";
 import styled from "styled-components";
+import useLocalStorage from "@/lib/hooks/useLocalStorage";
 const TodoLayout = () => {
-  //   const naviage = useNavigate();
+  const naviage = useNavigate();
+  const { removeLocalStorage } = useLocalStorage();
+
+  const handleLogout = () => {
+    removeLocalStorage("token");
+    naviage("/");
+  };
 
   return (
     <TodoLayoutWrapper>
       <header>
         <Logo to="/todo">My Todo</Logo>
-        <Button fullWidth={true} size="medium">
+        <Button size="medium" onClick={handleLogout}>
           로그아웃
         </Button>
       </header>

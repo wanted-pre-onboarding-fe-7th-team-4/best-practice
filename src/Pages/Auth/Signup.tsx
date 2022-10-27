@@ -45,7 +45,7 @@ function Signup() {
         <Title>계정을 만들어주세요</Title>
         <SignUpMessage>
           <span>이미 계정이 있으신가요?</span>{" "}
-          <Link to="/login">로그인 하러 가기</Link>
+          <Link to="/">로그인 하러 가기</Link>
         </SignUpMessage>
         <Form onSubmit={onClickSignUp}>
           <InputWrapper>
@@ -54,9 +54,9 @@ function Signup() {
               type="email"
               value={email}
               onChange={(e) => {
-              setEmail(e.currentTarget.value);
-              handleValidate(e.currentTarget.value, "email");
-            }}
+                setEmail(e.currentTarget.value);
+                handleValidate(e.currentTarget.value, "email");
+              }}
             />
           </InputWrapper>
           <InputWrapper>
@@ -65,9 +65,9 @@ function Signup() {
               type="password"
               value={password}
               onChange={(e) => {
-              setPassword(e.currentTarget.value);
-              handleValidate(e.currentTarget.value, "password");
-            }}
+                setPassword(e.currentTarget.value);
+                handleValidate(e.currentTarget.value, "password");
+              }}
             />
           </InputWrapper>
           <Form.Button
