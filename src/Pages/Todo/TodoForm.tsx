@@ -18,7 +18,9 @@ const TodoForm = () => {
   useEffect(() => {
     if (isSuccess) {
       setTodo((pre) => ({ ...pre, isSuccess }));
+      return;
     }
+    setTodo((pre) => ({ ...pre, isSuccess: false }));
   }, [isSuccess]);
 
   return (
