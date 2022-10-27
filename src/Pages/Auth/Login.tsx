@@ -94,22 +94,22 @@ function Login() {
               type="email"
               value={email}
               onChange={(e) => {
-              setEmail(e.currentTarget.value);
-              handleValidate(e.currentTarget.value, "email");
-            }}
-            required
-          />
+                setEmail(e.currentTarget.value);
+                handleValidate(e.currentTarget.value, "email");
+              }}
+              required
+            />
           </InputWrapper>
           <InputWrapper>
             <Form.Label>password</Form.Label>
             <Form.Input
               type="password"
               value={password}
-               onChange={(e) => {
-              setPassword(e.currentTarget.value);
-              handleValidate(e.currentTarget.value, "password");
-            }}
-            required
+              onChange={(e) => {
+                setPassword(e.currentTarget.value);
+                handleValidate(e.currentTarget.value, "password");
+              }}
+              required
             />
           </InputWrapper>
           <Form.Button

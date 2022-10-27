@@ -27,8 +27,10 @@ export const API = (() => {
   instance.interceptors.request.use((config) => {
     const accessToken = getLocalStorage("access_token"); // localStorage에 TOKEN 저장
 
-    if (accessToken && config.headers) {
-      config.headers.Authorization = `Bearer ${accessToken}`; // Header에 토큰을 넣어서 보내준다.
+    const token = accessToken?.token;
+
+    if (token && config.headers) {
+      config.headers.Authorization = `Bearer ${token}`; // Header에 토큰을 넣어서 보내준다.
     }
     return config;
   });
