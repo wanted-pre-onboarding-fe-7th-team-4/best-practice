@@ -41,29 +41,35 @@ function Signup() {
 
   return (
     <Container>
-      <FormWrapper>
-        <h1>계정을 만들어주세요</h1>
+      <div>
+        <Title>계정을 만들어주세요</Title>
         <SignUpMessage>
           <span>이미 계정이 있으신가요?</span>{" "}
           <Link to="/login">로그인 하러 가기</Link>
         </SignUpMessage>
         <Form onSubmit={onClickSignUp}>
-          <Form.Input
-            type="email"
-            value={email}
-            onChange={(e) => {
+          <InputWrapper>
+            <Form.Label>email</Form.Label>
+            <Form.Input
+              type="email"
+              value={email}
+              onChange={(e) => {
               setEmail(e.currentTarget.value);
               handleValidate(e.currentTarget.value, "email");
             }}
-          />
-          <Form.Input
-            type="password"
-            value={password}
-            onChange={(e) => {
+            />
+          </InputWrapper>
+          <InputWrapper>
+            <Form.Label>password</Form.Label>
+            <Form.Input
+              type="password"
+              value={password}
+              onChange={(e) => {
               setPassword(e.currentTarget.value);
               handleValidate(e.currentTarget.value, "password");
             }}
-          />
+            />
+          </InputWrapper>
           <Form.Button
             type="submit"
             fullWidth
@@ -73,7 +79,7 @@ function Signup() {
             가입하기
           </Form.Button>
         </Form>
-      </FormWrapper>
+      </div>
       <ImageWrapper>
         <img src="images/rocket.webp" alt="rocket" />
       </ImageWrapper>
@@ -83,24 +89,40 @@ function Signup() {
 
 export default Signup;
 
-const FormWrapper = styled.div`
-  h1 {
-    font-size: 3rem;
-    margin: 0 0 2rem 0;
-    white-space: nowrap;
-    transition: all 0.5s;
-    @media screen and (max-width: 960px) {
-      white-space: initial;
-      font-size: 2.8rem;
-    }
-
-    @media screen and (max-width: 539px) {
-      padding-left: 50px;
-      font-size: 2.3rem;
-    }
+const Title = styled.h1`
+  font-size: 5em;
+  font-weight: 600;
+  margin: 0 0 2rem 0;
+  white-space: nowrap;
+  transition: all 0.5s;
+  @media screen and (max-width: 960px) {
+    white-space: initial;
+    font-size: 4rem;
   }
-  & input {
-    margin: 1.2rem 0;
+  @media screen and (max-width: 850px) {
+    padding-left: 80px;
+    font-size: 4rem;
+  }
+  @media screen and (max-width: 539px) {
+    padding-left: 50px;
+    font-size: 3.3rem;
+  }
+`;
+
+const InputWrapper = styled.div`
+  background: ${({ theme }) => theme.color.white_alpha_30};
+  transition: all 0.3s;
+  border: 1px solid ${({ theme }) => theme.color.gray};
+  border-radius: 10px;
+  padding: 7px 16px 5px 16px;
+  margin: 1.2rem 0;
+
+  &.focus,
+  &:hover {
+    border: 1px solid ${({ theme }) => theme.color.primary};
+    label {
+      color: ${({ theme }) => theme.color.primary};
+    }
   }
 `;
 
@@ -109,7 +131,7 @@ const SignUpMessage = styled.div`
   margin: 1rem 0;
   a {
     font-size: inherit;
-    color: var(--color-primary);
+    color: ${({ theme }) => theme.color.primary};
     padding-left: 5px;
     display: inline-block;
 
