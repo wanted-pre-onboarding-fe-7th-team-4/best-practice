@@ -8,8 +8,8 @@ const TodoLayout = () => {
   const { removeLocalStorage } = useLocalStorage();
 
   const handleLogout = () => {
-    removeLocalStorage("token");
-    naviage("/");
+    removeLocalStorage(process.env.REACT_APP_LOCAL_STORAGE_KEY as string);
+    naviage("/login");
   };
 
   return (
