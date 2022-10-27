@@ -1,45 +1,43 @@
 import Form from "@/Components/Form/Form";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import useControlButtonDisabled from "@/lib/hooks/useControlButtonDisabled";
+import useRequestAuthentication from "@/lib/hooks/useRequestAuthentication";
+import useValidate from "@/lib/hooks/useValidate";
+import { AuthContext } from "@/lib/states/ContextProvider";
+import { useContext, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 
 function Signup() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  // const isLoggedIn = getLoginState();
-  // const [email, setEmail, onChangeEmail] = useInput();
-  // const [password, setPassword, onChangePassword] = useInput();
-  // const navigate = useNavigate();
-  // const [valid, setValid] = useState(false);
+  const { setAuth } = useContext(AuthContext);
 
-  const onSubmit = () => {
-    return null;
+  const { handleSignup, isSuccess, token } = useRequestAuthentication();
+  const {
+    email,
+    setEmail,
+    password,
+    setPassword,
+    isEmail,
+    isPassword,
+    handleValidate
+  } = useValidate();
+  const navigate = useNavigate();
+
+  const buttonDisabled = useControlButtonDisabled({
+    data: [isEmail, isPassword]
+  });
+
+  const onClickSignUp = async () => {
+    if (email && password) {
+      await handleSignup({ email, password });
+    }
   };
-  // useEffect(() => {
-  //   if (/@/.test(email) && password.trim().length >= 8) setValid(true);
-  //   else setValid(false);
-  // }, [email, password]);
 
-  // const onSubmit = useCallback(
-  //   (e: React.FormEvent<HTMLFormElement>) => {
-  //     e.preventDefault();
-  //     if (!email.trim()) alert("이메일을 입력해주세요");
-  //     else if (!password.trim()) alert("비밀번호를 입력해주세요");
-  //     else {
-  //       requestSignup(email, password)
-  //         .then((value) => {
-  //           if (value) navigate("/todo", { replace: true });
-  //         })
-  //         .catch((error) => alert(error.message));
-  //     }
-
-  //     setEmail("");
-  //     setPassword("");
-  //   },
-  //   [email, password, setEmail, setPassword, navigate]
-  // );
-
-  // if (isLoggedIn) return <Navigate to="/todo" replace />;
+  useEffect(() => {
+    if (isSuccess) {
+      setAuth((pre) => ({ ...pre, token, isSuccess }));
+      navigate("/");
+    }
+  }, [isSuccess, token]);
 
   return (
     <Container>
@@ -49,18 +47,29 @@ function Signup() {
           <span>이미 계정이 있으신가요?</span>{" "}
           <Link to="/login">로그인 하러 가기</Link>
         </SignUpMessage>
-        <Form onSubmit={onSubmit}>
+        <Form onSubmit={onClickSignUp}>
           <Form.Input
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.currentTarget.value)}
+            onChange={(e) => {
+              setEmail(e.currentTarget.value);
+              handleValidate(e.currentTarget.value, "email");
+            }}
           />
           <Form.Input
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.currentTarget.value)}
+            onChange={(e) => {
+              setPassword(e.currentTarget.value);
+              handleValidate(e.currentTarget.value, "password");
+            }}
           />
-          <Form.Button type="submit" fullWidth size="large" disabled={true}>
+          <Form.Button
+            type="submit"
+            fullWidth
+            size="large"
+            disabled={buttonDisabled}
+          >
             가입하기
           </Form.Button>
         </Form>
