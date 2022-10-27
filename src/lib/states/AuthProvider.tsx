@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import useLocalStorage from "@/lib/hooks/useLocalStorage";
 
 interface AuthProviderProps {
@@ -13,33 +13,33 @@ interface AuthContextProps {
 
 const AuthContext = createContext<AuthContextProps>({
   getAuthToken: () => null,
-  setAuthToken: () => {},
-  deleteAuthToken: () => {}
+  setAuthToken: () => undefined,
+  deleteAuthToken: () => undefined
 });
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const { getLocalStorage, setLocalStorage, removeLocalStorage } =
     useLocalStorage();
-  const [token, setToken] = useState<string | null>(null);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
 
   const getAuthToken = () => {
     const localStroageToken = getLocalStorage("access_token");
 
-    return localStroageToken || token;
+    return accessToken || localStroageToken;
   };
 
   const setAuthToken = (token: string) => {
-    setToken(token);
+    setAccessToken(token);
     setLocalStorage("access_token", token);
   };
 
   const deleteAuthToken = () => {
-    setToken(null);
+    setAccessToken(null);
     removeLocalStorage("access_token");
   };
 
   const value = {
-    token,
+    accessToken,
     getAuthToken,
     setAuthToken,
     deleteAuthToken
