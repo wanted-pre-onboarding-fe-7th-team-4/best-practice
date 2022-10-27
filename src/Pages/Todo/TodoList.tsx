@@ -11,7 +11,18 @@ const TodoList = () => {
   const [todos, setTodo] = useState<Todo[] | null>(null);
 
   useEffect(() => {
-    setTodo([]);
+    setTodo([
+      {
+        id: "1",
+        todo: "할일 1",
+        isCompleted: false
+      },
+      {
+        id: "2",
+        todo: "할일 1",
+        isCompleted: false
+      }
+    ]);
   }, []);
 
   return (
