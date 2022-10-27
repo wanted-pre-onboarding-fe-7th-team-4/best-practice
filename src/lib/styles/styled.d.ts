@@ -12,6 +12,12 @@ declare module "styled-components" {
       gray200: string;
       fontBlack: string;
       fontWhite: string;
+      primary: string;
+      red: string;
+      gray_dark: string;
+      gray: string;
+      gray_alpha_30: string;
+      white_alpha_30: string;
     };
   }
 }
