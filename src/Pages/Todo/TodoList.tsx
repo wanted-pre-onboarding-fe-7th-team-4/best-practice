@@ -1,36 +1,30 @@
-import { useEffect, useState } from "react";
+import useGetTodo from "@/lib/hooks/useGetTodos";
+import { TodoContext } from "@/lib/states/ContextProvider";
+import { useEffect, useContext } from "react";
 import styled from "styled-components";
 import TodoItem from "./TodoItem";
-interface Todo {
-  id: string;
-  todo: string;
-  isCompleted: boolean;
-}
 
 const TodoList = () => {
-  const [todos, setTodo] = useState<Todo[] | null>(null);
+  const {
+    todo: { isSuccess }
+  } = useContext(TodoContext);
+
+  const { getItem, todoList, isLoading } = useGetTodo();
 
   useEffect(() => {
-    setTodo([
-      {
-        id: "1",
-        todo: "할일 1",
-        isCompleted: false
-      },
-      {
-        id: "2",
-        todo: "할일 1",
-        isCompleted: false
-      }
-    ]);
-  }, []);
+    if (isSuccess) {
+      getItem();
+    }
+  }, [isSuccess]);
 
-  return (
+  return !isLoading ? (
     <List>
-      {todos?.map(({ id, todo, isCompleted }) => (
+      {todoList?.map(({ id, todo, isCompleted }) => (
         <TodoItem key={id} id={id} todo={todo} isCompleted={isCompleted} />
       ))}
     </List>
+  ) : (
+    <div>로딩중입니다.</div>
   );
 };
 
