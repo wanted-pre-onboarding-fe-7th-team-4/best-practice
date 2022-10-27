@@ -1,15 +1,16 @@
-import React from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, Outlet } from "react-router-dom";
 import Button from "../Button/Button";
 import styled from "styled-components";
 import useLocalStorage from "@/lib/hooks/useLocalStorage";
+import { AuthContext } from "@/lib/states/ContextProvider";
 const TodoLayout = () => {
-  const naviage = useNavigate();
+  const { setAuth } = useContext(AuthContext);
   const { removeLocalStorage } = useLocalStorage();
 
   const handleLogout = () => {
     removeLocalStorage(process.env.REACT_APP_LOCAL_STORAGE_KEY as string);
-    naviage("/login");
+    setAuth((pre) => ({ ...pre, isLogin: false }));
   };
 
   return (
