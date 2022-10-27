@@ -20,6 +20,7 @@
   "rules": {
     "no-var": "error",
     "no-multiple-empty-lines": "error",
+    "prettier/prettier": ["error", { "endOfLine": "auto" }],
     "no-console": ["error", { "allow": ["warn", "error", "info"] }],
     "eqeqeq": "error", // 일치 연산자 사용 필수
     "dot-notation": "warn", // 가능하다면 dot notation 사용
