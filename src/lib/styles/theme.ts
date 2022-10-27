@@ -10,6 +10,12 @@ export const theme: DefaultTheme = {
     gray100: "#F2F2F2",
     gray200: "#434343",
     fontBlack: "#1d1d1d",
-    fontWhite: "#fff"
+    fontWhite: "#fff",
+    primary: "#6a5acd",
+    red: "#c93434",
+    gray_dark: "#777",
+    gray: "#c2c2c2",
+    gray_alpha_30: "#c2c2c24d",
+    white_alpha_30: "#ffffff80"
   }
 };
