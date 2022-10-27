@@ -33,7 +33,7 @@ export const TodoApi = (() => {
         console.error(error);
       }
     },
-    updateTodo: async (id: string, todo: string, isCompleted?: boolean) => {
+    updateTodo: async (id: number, todo: string, isCompleted?: boolean) => {
       try {
         const response = await API.putData({
           url: `/todos/${id}`,
@@ -47,7 +47,7 @@ export const TodoApi = (() => {
         console.error(error);
       }
     },
-    deleteTodo: async (id: string) => {
+    deleteTodo: async (id: number) => {
       try {
         const response = await API.deleteData({
           url: `/todos/${id}`

@@ -4,9 +4,9 @@ import { TodoApi } from "../api";
 import useLocalStorage from "./useLocalStorage";
 
 export interface UpdateTodoData {
-  id: string;
+  id: number;
   todo: string;
-  isCompleted?: boolean;
+  isCompleted: boolean;
 }
 
 const useUpdateTodo = () => {
@@ -19,7 +19,10 @@ const useUpdateTodo = () => {
   const { getLocalStorage } = useLocalStorage();
 
   const handleUpdateTodo = async (
-    e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>,
+    e:
+      | React.FormEvent<HTMLFormElement>
+      | React.MouseEvent<HTMLButtonElement>
+      | React.MouseEvent<HTMLDivElement>,
     { id, todo, isCompleted }: UpdateTodoData
   ) => {
     e.preventDefault();

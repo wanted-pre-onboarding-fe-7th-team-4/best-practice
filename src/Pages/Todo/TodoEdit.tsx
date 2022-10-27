@@ -5,12 +5,13 @@ import useUpdateTodo from "@/lib/hooks/useUpdateTodo";
 import { TodoContext } from "@/lib/states/ContextProvider";
 
 interface IEdit {
-  id: string;
+  id: number;
   todo: string;
+  isCompleted: boolean;
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const TodoEdit = ({ id, todo, setEdit }: IEdit) => {
+const TodoEdit = ({ id, todo, isCompleted, setEdit }: IEdit) => {
   const { setTodo } = useContext(TodoContext);
   const [todoText, setTodoText] = useState(todo);
   const {
@@ -20,14 +21,17 @@ const TodoEdit = ({ id, todo, setEdit }: IEdit) => {
     error
   } = useUpdateTodo();
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    handleUpdateTodo(e, { id, todo });
+  const onSubmit = (
+    e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
+  ) => {
+    handleUpdateTodo(e, { id, todo: todoText, isCompleted });
     return null;
   };
 
   useEffect(() => {
     if (isUpdateSuccess) {
-      setTodo((pre) => ({ ...pre, isUpdateSuccess }));
+      setTodo((pre) => ({ ...pre, isSuccess: isUpdateSuccess }));
+      setEdit(false);
     }
   }, [isUpdateSuccess]);
 
@@ -40,7 +44,7 @@ const TodoEdit = ({ id, todo, setEdit }: IEdit) => {
           onChange={(e) => setTodoText(e.currentTarget.value)}
         />
         <div>
-          <EditOkBtn size="medium" type="submit">
+          <EditOkBtn onClick={onSubmit} size="medium" type="submit">
             제출
           </EditOkBtn>
           <EditCancelBtn size="medium" onClick={() => setEdit(false)}>
