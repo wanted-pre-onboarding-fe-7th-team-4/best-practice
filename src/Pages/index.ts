@@ -1,2 +1,3 @@
 export { Todo } from "./Todo";
-export { Auth } from "./Auth";
+export { Login } from "./Auth";
+export { Signup } from "./Auth";

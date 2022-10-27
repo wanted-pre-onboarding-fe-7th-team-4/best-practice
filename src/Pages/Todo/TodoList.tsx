@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import styled from "styled-components";
 import TodoItem from "./TodoItem";
 interface Todo {
   id: string;
@@ -14,12 +15,19 @@ const TodoList = () => {
   }, []);
 
   return (
-    <ul>
+    <List>
       {todos?.map(({ id, todo, isCompleted }) => (
-        <TodoItem key={id} todo={todo} isCompleted={isCompleted} />
+        <TodoItem key={id} id={id} todo={todo} isCompleted={isCompleted} />
       ))}
-    </ul>
+    </List>
   );
 };
 
 export default TodoList;
+
+const List = styled.ul`
+  padding: 5px 5px 10px 5px;
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+`;

@@ -1,40 +1,45 @@
-import { useCallback, useEffect, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import { Link } from "react-router-dom";
+import styled, { keyframes } from "styled-components";
 import Form from "@/Components/Form/Form";
+import { useState } from "react";
 
 function Login() {
-  const isLoggedIn = getLoginState();
-  const [email, setEmail, onChangeEmail] = useInput();
-  const [password, setPassword, onChangePassword] = useInput();
-  const [valid, setValid] = useState(false);
-  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  // const isLoggedIn = getLoginState();
+  // const [email, setEmail, onChangeEmail] = useInput();
+  // const [password, setPassword, onChangePassword] = useInput();
+  // const [valid, setValid] = useState(false);
+  // const navigate = useNavigate();
 
-  const onSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      if (!email.trim()) alert("이메일을 입력해주세요");
-      else if (!password.trim()) alert("비밀번호를 입력해주세요");
-      else {
-        requestLogin(email, password)
-          .then((value) => {
-            if (value) navigate("/todo", { replace: true });
-          })
-          .catch((error) => alert(error.message));
-      }
+  const onSubmit = () => {
+    return null;
+  };
+  // const onSubmit = useCallback(
+  //   (e: React.FormEvent<HTMLFormElement>) => {
+  //     e.preventDefault();
+  //     if (!email.trim()) alert("이메일을 입력해주세요");
+  //     else if (!password.trim()) alert("비밀번호를 입력해주세요");
+  //     else {
+  //       requestLogin(email, password)
+  //         .then((value) => {
+  //           if (value) navigate("/todo", { replace: true });
+  //         })
+  //         .catch((error) => alert(error.message));
+  //     }
 
-      setEmail("");
-      setPassword("");
-    },
-    [email, password, setEmail, setPassword, navigate]
-  );
+  //     setEmail("");
+  //     setPassword("");
+  //   },
+  //   [email, password, setEmail, setPassword, navigate]
+  // );
 
-  useEffect(() => {
-    if (/@/.test(email) && password.trim().length >= 8) setValid(true);
-    else setValid(false);
-  }, [email, password]);
+  // useEffect(() => {
+  //   if (/@/.test(email) && password.trim().length >= 8) setValid(true);
+  //   else setValid(false);
+  // }, [email, password]);
 
-  if (isLoggedIn) return <Navigate to="/todo" replace />;
+  // if (isLoggedIn) return <Navigate to="/todo" replace />;
 
   return (
     <Container>
@@ -48,50 +53,66 @@ function Login() {
           <Form.Input
             type="email"
             value={email}
-            onChange={onChangeEmail}
+            onChange={(e) => setEmail(e.currentTarget.value)}
             required
           />
           <Form.Input
             type="password"
             value={password}
-            onChange={onChangePassword}
+            onChange={(e) => setPassword(e.currentTarget.value)}
             required
           />
-          <Form.Button type="submit" fullWidth size="large" disabled={!valid}>
+          <Form.Button type="submit" fullWidth size="large" disabled={true}>
             로그인
           </Form.Button>
         </Form>
       </FormWrapper>
-      <div>
+      <ImageWrapper>
         <img src="images/heart.webp" alt="red heart" />
-      </div>
+      </ImageWrapper>
     </Container>
   );
 }
 
 export default Login;
 
-const FormWrapper = styled.div``;
+const FormWrapper = styled.div`
+  h1 {
+    font-size: 3rem;
+    margin: 0 0 2rem 0;
+    white-space: nowrap;
+    transition: all 0.5s;
+    @media screen and (max-width: 960px) {
+      white-space: initial;
+      font-size: 2.8rem;
+    }
+
+    @media screen and (max-width: 539px) {
+      padding-left: 50px;
+      font-size: 2.3rem;
+    }
+  }
+  & input {
+    margin: 1.2rem 0;
+  }
+`;
+
 const SignUpMessage = styled.div`
   font-size: 18px;
   margin: 1rem 0;
+  a {
+    font-size: inherit;
+    color: var(--color-primary);
+    padding-left: 5px;
+    display: inline-block;
 
-  & {
-    a {
-      font-size: inherit;
-      color: var(--color-primary);
-      padding-left: 5px;
-      display: inline-block;
-
-      &:hover {
-        font-weight: 600;
-      }
+    &:hover {
+      font-weight: 600;
     }
   }
 `;
 
-const Container = styled.div`
-  @keyframes floating {
+const floatingFrame = keyframes`
     0% {
       transform: translateY(0%);
     }
@@ -101,92 +122,59 @@ const Container = styled.div`
     100% {
       transform: translateY(0%);
     }
-  }
+`;
 
-  h1 {
-    font-size: 3rem;
-    margin: 0 0 2rem 0;
-    white-space: nowrap;
-    transition: all 0.5s;
-  }
+const ImageWrapper = styled.div`
+  text-align: center;
+  width: 356px;
+  align-self: center;
+  transition: all 0.5s;
 
-  .container {
-    display: flex;
-    height: 100%;
-    padding-bottom: 2rem;
-    justify-content: space-evenly;
-    align-content: center;
-    align-items: center;
-
-    & .input {
-      margin: 1.2rem 0;
-    }
-  }
-
-  .image_wrapper {
-    text-align: center;
-    width: 356px;
-    align-self: center;
-    transition: all 0.5s;
-
-    & img {
-      width: 100%;
-      animation: floating 1.3s infinite;
-    }
-  }
-
-  @media screen and (max-width: 960px) {
-    .container {
-      margin-top: 0;
-      position: relative;
-    }
-
-    .hello {
-      white-space: initial;
-      font-size: 2.8rem;
-    }
+  & img {
+    width: 100%;
+    animation: ${floatingFrame} 1.3s infinite;
   }
 
   @media screen and (max-width: 850px) {
-    .container {
-      display: block;
-      position: relative;
-    }
-
-    .hello {
-      padding-left: 80px;
-      font-size: 2.5rem;
-    }
-
-    .image_wrapper {
-      width: 100%;
-      & img {
-        width: 70px;
-        position: absolute;
-        left: 0;
-        top: 0;
-      }
+    width: 100%;
+    & img {
+      width: 70px;
+      position: absolute;
+      left: 0;
+      top: 0;
     }
   }
 
   @media screen and (max-width: 539px) {
-    .container {
-      display: block;
-      position: relative;
+    width: 100%;
+    & img {
+      width: 50px;
+      position: absolute;
+      left: 0;
     }
+  }
+`;
 
-    .hello {
-      padding-left: 50px;
-      font-size: 2.3rem;
-    }
+const Container = styled.div`
+  display: flex;
+  height: 100%;
+  padding-bottom: 2rem;
+  justify-content: space-evenly;
+  align-content: center;
+  align-items: center;
 
-    .image_wrapper {
-      width: 100%;
-      & img {
-        width: 50px;
-        position: absolute;
-        left: 0;
-      }
-    }
+  @media screen and (max-width: 960px) {
+    margin-top: 0;
+    position: relative;
+  }
+
+  @media screen and (max-width: 850px) {
+    display: block;
+    position: relative;
+  }
+
+  @media screen and (max-width: 539px) {
+    display: block;
+    position: relative;
   }
 `;

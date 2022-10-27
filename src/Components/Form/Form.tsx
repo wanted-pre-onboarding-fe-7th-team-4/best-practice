@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react";
 import Button from "../Button/Button";
 import Input from "../Input/Input";
+import Label from "../Label/Label";
 
 interface IFormProps extends React.FormHTMLAttributes<HTMLFormElement> {
   children: ReactNode;
