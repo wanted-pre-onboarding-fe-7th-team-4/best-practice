@@ -19,7 +19,7 @@ type IAPIDeleteValue = IAPIValue;
 
 export const API = (() => {
   const instance = axios.create({
-    baseURL: process.env.BASE_URL as string
+    baseURL: process.env.REACT_APP_BASE_URL as string
   });
 
   const { getLocalStorage } = useLocalStorage();
