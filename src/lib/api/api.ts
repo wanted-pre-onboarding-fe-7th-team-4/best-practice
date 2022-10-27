@@ -25,7 +25,7 @@ export const API = (() => {
   const { getLocalStorage } = useLocalStorage();
 
   instance.interceptors.request.use((config) => {
-    const { token } = getLocalStorage("access_token"); // localStorage에 TOKEN 저장
+    const accessToken = getLocalStorage("access_token"); // localStorage에 TOKEN 저장
 
     const token = accessToken?.token;
 
