@@ -1,2 +1,2 @@
-export { getData, postData, putData, deleteData } from "./api";
-export { default as request } from "./common";
+export { AuthApi } from "./AuthApi";
+export { TodoApi } from "./TodoApi";

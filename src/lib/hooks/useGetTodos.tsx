@@ -1,6 +1,5 @@
-import { getData } from "@/lib/api/api";
-
 import { useEffect, useState } from "react";
+import { TodoApi } from "../api";
 import { ITodoItemProps } from "../interfaces";
 import useLocalStorage from "./useLocalStorage";
 
@@ -27,7 +26,7 @@ const useGetTodo = () => {
     );
 
     if (token) {
-      const response = await getData({ url: "/todos", token });
+      const response = await TodoApi.getTodos();
 
       if (!response.length) {
         setIsLoading(false);

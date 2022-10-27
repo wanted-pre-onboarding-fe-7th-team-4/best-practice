@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { putData } from "../api";
+import { TodoApi } from "../api";
+
 import useLocalStorage from "./useLocalStorage";
 
 export interface UpdateTodoData {
@@ -29,13 +30,9 @@ const useUpdateTodo = () => {
     );
 
     if (todo && token) {
-      const response = await putData({
-        url: `/todos/${id}`,
-        data: { todo, isCompleted },
-        token
-      });
+      const response = await TodoApi.updateTodo(id, todo, isCompleted);
 
-      if (response.id) {
+      if (response) {
         setIsSuccess(true);
         return;
       }

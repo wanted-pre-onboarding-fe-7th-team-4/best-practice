@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { deleteData } from "@/lib/api/api";
+import { TodoApi } from "../api";
+
 import useLocalStorage from "./useLocalStorage";
 
 const useDeleteTodo = () => {
@@ -19,9 +20,9 @@ const useDeleteTodo = () => {
     );
 
     if (token) {
-      const response = await deleteData({ url: `/todos/${id}`, token });
+      const response = await TodoApi.deleteTodo(id);
 
-      if (response.status === 204) {
+      if (response?.status === 204) {
         setIsSuccess(true);
         setIsError(false);
         return;
@@ -29,7 +30,7 @@ const useDeleteTodo = () => {
 
       setIsError(true);
       setError({
-        statusCode: response.status,
+        statusCode: response?.status,
         message: "삭제에 실패하였습니다."
       });
     }

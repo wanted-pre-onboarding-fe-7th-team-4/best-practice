@@ -1,43 +1,39 @@
-import request from "@/lib/api/common";
+import { API } from "./api";
 
-interface IProps {
+interface AuthFormValue {
   email: string;
   password: string;
 }
 
-request.interceptors.request.use((config) => {
-  const accessToken = localStorage.getItem("token"); // localStorage에 TOKEN 저장
-
-  if (accessToken && config.headers) {
-    config.headers.Authorization = `Bearer ${accessToken}`; // Header에 토큰을 넣어서 보내준다.
-  }
-  return config;
-});
-
-/* 
-  로그인
-  Response: { "access_token": String }
-*/
-export const login = ({ email, password }: IProps) => {
-  return request.post({
-    url: "/auth/signin",
-    data: {
-      email,
-      password
+export const AuthApi = (() => {
+  return {
+    signIn: async ({ email, password }: AuthFormValue) => {
+      try {
+        const response = await API.postData<AuthFormValue>({
+          url: "/auth/signin",
+          data: {
+            email,
+            password
+          }
+        });
+        return response;
+      } catch (error: unknown) {
+        console.error(error);
+      }
+    },
+    signUp: async ({ email, password }: AuthFormValue) => {
+      try {
+        const response = await API.postData<AuthFormValue>({
+          url: "/auth/signup",
+          data: {
+            email,
+            password
+          }
+        });
+        return response;
+      } catch (error: unknown) {
+        console.error(error);
+      }
     }
-  });
-};
-
-/* 
-    회원가입
-    Response: { "access_token": String }
-  */
-export const signup = ({ email, password }: IProps) => {
-  return request.post({
-    url: "/auth/signup",
-    data: {
-      email,
-      password
-    }
-  });
-};
+  };
+})();
