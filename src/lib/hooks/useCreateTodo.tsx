@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { TodoApi } from "../api";
 
-// import useLocalStorage from "./useLocalStorage";
+import useLocalStorage from "./useLocalStorage";
 
 const useCreateTodo = () => {
   const [isSuccess, setIsSuccess] = useState<boolean | null>(false);
@@ -10,16 +10,16 @@ const useCreateTodo = () => {
     statusCode: number;
     message: string;
   } | null>(null);
-  // const { getLocalStorage } = useLocalStorage();
+  const { getLocalStorage } = useLocalStorage();
 
-  const handleCreateTodoContents = async (
-    e: React.FormEvent<HTMLFormElement>,
-    todo: string
-  ) => {
-    e.preventDefault();
+  const handleCreateTodoContents = async (todo: string) => {
     setIsSuccess(null);
 
-    if (todo) {
+    const { token } = getLocalStorage(
+      process.env.REACT_APP_LOCAL_STORAGE_KEY as string
+    );
+
+    if (todo && token) {
       const response = await TodoApi.createTodo(todo);
 
       if (response.id) {

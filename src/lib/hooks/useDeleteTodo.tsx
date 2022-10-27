@@ -12,7 +12,7 @@ const useDeleteTodo = () => {
   } | null>(null);
   const { getLocalStorage } = useLocalStorage();
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id: string) => {
     setIsSuccess(null);
 
     const { token } = getLocalStorage(

@@ -4,9 +4,9 @@ import { TodoApi } from "../api";
 import useLocalStorage from "./useLocalStorage";
 
 export interface UpdateTodoData {
-  id: number;
+  id: string;
   todo: string;
-  isCompleted: boolean;
+  isCompleted?: boolean;
 }
 
 const useUpdateTodo = () => {

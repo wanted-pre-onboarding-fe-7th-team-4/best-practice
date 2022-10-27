@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 interface ITodoItemProps {
-  id: string;
+  id: number;
   todo: string;
   isCompleted: boolean;
 }

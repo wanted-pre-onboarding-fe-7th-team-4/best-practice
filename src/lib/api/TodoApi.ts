@@ -1,7 +1,7 @@
 import { API } from "./api";
 
 export interface Todo {
-  id: number;
+  id: string;
   todo: string;
   isCompleted: boolean;
   userId: number;
@@ -33,7 +33,7 @@ export const TodoApi = (() => {
         console.error(error);
       }
     },
-    updateTodo: async (id: number, todo: string, isCompleted: boolean) => {
+    updateTodo: async (id: string, todo: string, isCompleted?: boolean) => {
       try {
         const response = await API.putData({
           url: `/todos/${id}`,
@@ -47,7 +47,7 @@ export const TodoApi = (() => {
         console.error(error);
       }
     },
-    deleteTodo: async (id: number) => {
+    deleteTodo: async (id: string) => {
       try {
         const response = await API.deleteData({
           url: `/todos/${id}`
