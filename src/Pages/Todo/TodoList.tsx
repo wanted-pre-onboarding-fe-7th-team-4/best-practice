@@ -20,7 +20,13 @@ const TodoList = () => {
   return !isLoading ? (
     <List>
       {todoList?.map(({ id, todo, isCompleted }) => (
-        <TodoItem key={id} id={id} todo={todo} isCompleted={isCompleted} />
+        <TodoItem
+          data-id={id}
+          key={id}
+          id={id}
+          todo={todo}
+          isCompleted={isCompleted}
+        />
       ))}
     </List>
   ) : (

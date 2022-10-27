@@ -25,10 +25,10 @@ export const API = (() => {
   const { getLocalStorage } = useLocalStorage();
 
   instance.interceptors.request.use((config) => {
-    const accessToken = getLocalStorage("access_token"); // localStorage에 TOKEN 저장
+    const { token } = getLocalStorage("access_token"); // localStorage에 TOKEN 저장
 
-    if (accessToken && config.headers) {
-      config.headers.Authorization = `Bearer ${accessToken}`; // Header에 토큰을 넣어서 보내준다.
+    if (token && config.headers) {
+      config.headers.Authorization = `Bearer ${token}`; // Header에 토큰을 넣어서 보내준다.
     }
     return config;
   });
@@ -74,7 +74,7 @@ export const API = (() => {
     },
     putData: async <TData>({ url, data, config }: IAPIPutValue<TData>) => {
       try {
-        const response = await instance.post(url, data, {
+        const response = await instance.put(url, data, {
           headers: {
             "Content-Type": "application/json"
           },

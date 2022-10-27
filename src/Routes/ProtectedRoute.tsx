@@ -8,10 +8,10 @@ interface IProtectedRoute {
 
 const ProtectedRoute = ({ isLogin, to }: IProtectedRoute) => {
   if (isLogin) {
-    return <Outlet />;
+    return <Navigate to={to} />;
   }
 
-  return <Navigate to={to} />;
+  return <Outlet />;
 };
 
 export default ProtectedRoute;

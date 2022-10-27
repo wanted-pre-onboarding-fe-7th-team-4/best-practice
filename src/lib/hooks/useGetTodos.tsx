@@ -5,7 +5,7 @@ import useLocalStorage from "./useLocalStorage";
 
 const useGetTodo = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
   const [todoList, setTodoList] = useState<ITodoItemProps[]>([
     {
       id: 1,
@@ -19,7 +19,7 @@ const useGetTodo = () => {
 
   const getItem = async () => {
     setIsLoading(true);
-    setIsSuccess(false);
+    setIsSuccess(null);
 
     const { token } = getLocalStorage(
       process.env.REACT_APP_LOCAL_STORAGE_KEY as string

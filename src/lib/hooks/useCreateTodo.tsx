@@ -4,7 +4,7 @@ import { TodoApi } from "../api";
 import useLocalStorage from "./useLocalStorage";
 
 const useCreateTodo = () => {
-  const [isSuccess, setIsSuccess] = useState<boolean | null>(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState<{
     statusCode: number;
@@ -13,7 +13,7 @@ const useCreateTodo = () => {
   const { getLocalStorage } = useLocalStorage();
 
   const handleCreateTodoContents = async (todo: string) => {
-    setIsSuccess(null);
+    setIsSuccess(false);
 
     const { token } = getLocalStorage(
       process.env.REACT_APP_LOCAL_STORAGE_KEY as string
