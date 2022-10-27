@@ -24,15 +24,8 @@ function Login() {
     setIsPassword
   } = useValidate();
 
-  const {
-    token,
-    handleSignin,
-    isError,
-    // error,
-    isSuccess,
-    isSignUp,
-    setIsError
-  } = useRequestAuthentication();
+  const { token, handleSignin, isError, isSuccess, isSignUp, setIsError } =
+    useRequestAuthentication();
 
   const navigate = useNavigate();
   const { setLocalStorage } = useLocalStorage();

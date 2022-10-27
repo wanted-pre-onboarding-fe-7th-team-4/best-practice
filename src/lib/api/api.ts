@@ -25,7 +25,7 @@ export const API = (() => {
   const { getLocalStorage } = useLocalStorage();
 
   instance.interceptors.request.use((config) => {
-    const accessToken = getLocalStorage("access_token"); // localStorage에 TOKEN 저장
+    const { token } = getLocalStorage("access_token"); // localStorage에 TOKEN 저장
 
     const token = accessToken?.token;
 
@@ -76,7 +76,7 @@ export const API = (() => {
     },
     putData: async <TData>({ url, data, config }: IAPIPutValue<TData>) => {
       try {
-        const response = await instance.post(url, data, {
+        const response = await instance.put(url, data, {
           headers: {
             "Content-Type": "application/json"
           },
