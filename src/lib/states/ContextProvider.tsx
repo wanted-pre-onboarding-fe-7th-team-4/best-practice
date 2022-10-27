@@ -6,13 +6,13 @@ interface ContextProps {
 
 // Auth
 interface IAuthProps {
-  token?: string;
+  authToken?: string;
   email?: string;
   password?: string;
   error?: { statusCode: number; message: string };
   isEmail?: boolean;
   isPassword?: boolean;
-  isSuccess?: boolean;
+  isAuthSuccess?: boolean;
   isSignUp?: boolean;
   isError?: boolean;
   isLogin?: boolean;
@@ -26,13 +26,13 @@ interface AuthContext {
 export const AuthContext = React.createContext<AuthContext>(null!);
 
 const authDefault = {
-  token: "",
+  authToken: "",
   email: "",
   password: "",
   error: { statusCode: 0, message: "" },
   isEmail: false,
   isPassword: false,
-  isSuccess: false,
+  isAuthSuccess: false,
   isSignUp: false,
   isError: false,
   isLogin: false
