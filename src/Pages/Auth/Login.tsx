@@ -1,72 +1,127 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import Form from "@/Components/Form/Form";
-import { useState } from "react";
+import { useEffect, useContext } from "react";
+import { AuthContext } from "@/lib/states/ContextProvider";
+import useValidate from "@/lib/hooks/useValidate";
+import useRequestAuthentication, {
+  AuthenticationFormValue
+} from "@/lib/hooks/useRequestAuthentication";
+import useControlButtonDisabled from "@/lib/hooks/useControlButtonDisabled";
+import useLocalStorage from "@/lib/hooks/useLocalStorage";
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  // const isLoggedIn = getLoginState();
-  // const [email, setEmail, onChangeEmail] = useInput();
-  // const [password, setPassword, onChangePassword] = useInput();
-  // const [valid, setValid] = useState(false);
-  // const navigate = useNavigate();
+  const { setAuth } = useContext(AuthContext);
+  const {
+    email,
+    setEmail,
+    password,
+    setPassword,
+    isEmail,
+    isPassword,
+    handleValidate,
+    setIsEmail,
+    setIsPassword
+  } = useValidate();
 
-  const onSubmit = () => {
-    return null;
+  const {
+    token,
+    handleSignin,
+    isError,
+    // error,
+    isSuccess,
+    isSignUp,
+    setIsError
+  } = useRequestAuthentication();
+
+  const navigate = useNavigate();
+  const { setLocalStorage } = useLocalStorage();
+
+  const buttonDisabled = useControlButtonDisabled({
+    data: [isEmail, isPassword]
+  });
+
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>,
+    { email, password }: AuthenticationFormValue
+  ) => {
+    e.preventDefault();
+    await handleSignin({ email, password });
   };
-  // const onSubmit = useCallback(
-  //   (e: React.FormEvent<HTMLFormElement>) => {
-  //     e.preventDefault();
-  //     if (!email.trim()) alert("이메일을 입력해주세요");
-  //     else if (!password.trim()) alert("비밀번호를 입력해주세요");
-  //     else {
-  //       requestLogin(email, password)
-  //         .then((value) => {
-  //           if (value) navigate("/todo", { replace: true });
-  //         })
-  //         .catch((error) => alert(error.message));
-  //     }
 
-  //     setEmail("");
-  //     setPassword("");
-  //   },
-  //   [email, password, setEmail, setPassword, navigate]
-  // );
+  useEffect(() => {
+    if (isSuccess) {
+      setAuth((pre) => ({ ...pre, token, isSuccess, isLogin: true }));
+      setLocalStorage("access_token", { token });
+      navigate("/todo", { replace: true });
+    }
+  }, [isSuccess]);
 
-  // useEffect(() => {
-  //   if (/@/.test(email) && password.trim().length >= 8) setValid(true);
-  //   else setValid(false);
-  // }, [email, password]);
+  useEffect(() => {
+    if (isError === null) {
+      return;
+    }
 
-  // if (isLoggedIn) return <Navigate to="/todo" replace />;
+    if (isError) {
+      setIsEmail(false);
+      setIsPassword(false);
+      setAuth((pre) => ({ ...pre, isError, isSignUp, email, password }));
+    } else {
+      setAuth((pre) => ({ ...pre, isError: false }));
+    }
+  }, [isError]);
+
+  useEffect(() => {
+    setIsError(null);
+    if (isEmail && isPassword) {
+      return;
+    }
+    setIsError(true);
+  }, [isEmail, isPassword]);
 
   return (
     <Container>
-      <FormWrapper>
-        <h1>다시 만나서 반가워요!</h1>
+      <div>
+        <Title>다시 만나서 반가워요!</Title>
         <SignUpMessage>
           <span>처음 오셨나요?</span>
           <Link to="/signup">회원가입 하러 가기</Link>
         </SignUpMessage>
-        <Form onSubmit={onSubmit}>
-          <Form.Input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.currentTarget.value)}
+        <Form onSubmit={(e) => handleSubmit(e, { email, password })}>
+          <InputWrapper>
+            <Form.Label>email</Form.Label>
+            <Form.Input
+              type="email"
+              value={email}
+              onChange={(e) => {
+              setEmail(e.currentTarget.value);
+              handleValidate(e.currentTarget.value, "email");
+            }}
             required
           />
-          <Form.Input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.currentTarget.value)}
+          </InputWrapper>
+          <InputWrapper>
+            <Form.Label>password</Form.Label>
+            <Form.Input
+              type="password"
+              value={password}
+               onChange={(e) => {
+              setPassword(e.currentTarget.value);
+              handleValidate(e.currentTarget.value, "password");
+            }}
             required
-          />
-          <Form.Button type="submit" fullWidth size="large" disabled={true}>
+            />
+          </InputWrapper>
+          <Form.Button
+            type="submit"
+            fullWidth
+            size="large"
+            disabled={buttonDisabled}
+          >
             로그인
           </Form.Button>
         </Form>
-      </FormWrapper>
+      </div>
       <ImageWrapper>
         <img src="images/heart.webp" alt="red heart" />
       </ImageWrapper>
@@ -76,24 +131,40 @@ function Login() {
 
 export default Login;
 
-const FormWrapper = styled.div`
-  h1 {
-    font-size: 3rem;
-    margin: 0 0 2rem 0;
-    white-space: nowrap;
-    transition: all 0.5s;
-    @media screen and (max-width: 960px) {
-      white-space: initial;
-      font-size: 2.8rem;
-    }
-
-    @media screen and (max-width: 539px) {
-      padding-left: 50px;
-      font-size: 2.3rem;
-    }
+const Title = styled.h1`
+  font-size: 5em;
+  font-weight: 600;
+  margin: 0 0 2rem 0;
+  white-space: nowrap;
+  transition: all 0.5s;
+  @media screen and (max-width: 960px) {
+    white-space: initial;
+    font-size: 4rem;
   }
-  & input {
-    margin: 1.2rem 0;
+  @media screen and (max-width: 850px) {
+    padding-left: 80px;
+    font-size: 4rem;
+  }
+  @media screen and (max-width: 539px) {
+    padding-left: 50px;
+    font-size: 3.3rem;
+  }
+`;
+
+const InputWrapper = styled.div`
+  background: ${({ theme }) => theme.color.white_alpha_30};
+  transition: all 0.3s;
+  border: 1px solid ${({ theme }) => theme.color.gray};
+  border-radius: 10px;
+  padding: 7px 16px 5px 16px;
+  margin: 1.2rem 0;
+
+  &.focus,
+  &:hover {
+    border: 1px solid ${({ theme }) => theme.color.primary};
+    label {
+      color: ${({ theme }) => theme.color.primary};
+    }
   }
 `;
 
@@ -102,7 +173,7 @@ const SignUpMessage = styled.div`
   margin: 1rem 0;
   a {
     font-size: inherit;
-    color: var(--color-primary);
+    color: ${({ theme }) => theme.color.primary};
     padding-left: 5px;
     display: inline-block;
 

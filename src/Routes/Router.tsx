@@ -19,7 +19,7 @@ const Router = () => {
     <Routes>
       <Route path="/" element={<AuthLayout />}>
         <Route element={<ProtectedRoute isLogin={true} to="/" />}>
-          <Route path="login" element={<Login />} />
+          <Route path="" element={<Login />} />
           <Route path="signup" element={<Signup />} />
         </Route>
       </Route>

@@ -7,7 +7,7 @@ const useLocalStorage = () => {
     return null;
   };
 
-  const setLocalStorage = <T,>(name: string, item: T) => {
+  const setLocalStorage = <T>(name: string, item: T) => {
     const setItem = localStorage.setItem(name, JSON.stringify(item));
     return setItem;
   };

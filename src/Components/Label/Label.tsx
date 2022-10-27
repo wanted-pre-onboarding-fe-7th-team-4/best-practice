@@ -13,7 +13,7 @@ export default Label;
 
 const LabelWrapper = styled.label`
   display: block;
-  color: var(--color-gray);
+  color: ${({ theme }) => theme.color.gray};
   font-size: 14px;
   padding: 0;
 `;
