@@ -18,6 +18,8 @@
   },
   "plugins": ["react", "@typescript-eslint"],
   "rules": {
+    "@typescript-eslint/no-unused-vars": "error",
+    "react/react-in-jsx-scope": "off",
     "no-var": "error",
     "no-multiple-empty-lines": "error",
     "no-console": ["error", { "allow": ["warn", "error", "info"] }],
@@ -25,6 +27,11 @@
     "dot-notation": "warn", // 가능하다면 dot notation 사용
     "no-unused-vars": "off", // 사용하지 않는 변수 금지,
     "quotes": ["error", "double"],
-    "@typescript-eslint/no-unused-vars": "error"
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ]
   }
 }

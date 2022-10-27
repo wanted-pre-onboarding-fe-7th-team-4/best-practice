@@ -1,25 +1,17 @@
 import React from "react";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { useAuthContext } from "@/lib/states/AuthProvider";
+import { Navigate, Outlet } from "react-router-dom";
 
-const ProtectedRoute = () => {
-  const { getAuthToken } = useAuthContext();
-  const { pathname } = useLocation();
-  const authToken = getAuthToken();
-  const isAuthPage = pathname === "/" || pathname === "/logout";
-  if (isAuthPage) {
-    if (authToken) {
-      return <Navigate to="/todo" />;
-    } else {
-      return <Outlet />;
-    }
-  } else {
-    if (authToken) {
-      return <Outlet />;
-    } else {
-      return <Navigate to="/" />;
-    }
+interface IProtectedRoute {
+  isLogin: boolean;
+  to: string;
+}
+
+const ProtectedRoute = ({ isLogin, to }: IProtectedRoute) => {
+  if (isLogin) {
+    return <Outlet />;
   }
+
+  return <Navigate to={to} />;
 };
 
 export default ProtectedRoute;
