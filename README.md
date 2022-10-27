@@ -124,7 +124,7 @@ components, lib, pages, routes 폴더로 나눔
 
 ### VSCode의 라이브 쉐어 ⇒ 하나의 온라인 VSCode에서 다같이 작성 및 수정 가능한 확장기능
 
-![liveshare](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/70da2dc8-60c4-4f96-9674-6bb0fbef67f2/Untitled.png)
+![liveshare](https://user-images.githubusercontent.com/93570122/198358270-30aa51a7-935a-4674-b6c0-e71fa7d905ac.png)
 
 - 소규모 작업에서 기능별로 세분화 하는데 어려움을 겪었다.
 - 8명의 코드에서 best practice를 적용하다보니 사전과제에서 미리 정해진 convention이나 정확한 가이드가 없어서 코드를 합치는데 시간이 오래 걸렸다.
