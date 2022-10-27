@@ -43,30 +43,36 @@ function Login() {
 
   return (
     <Container>
-      <FormWrapper>
-        <h1>다시 만나서 반가워요!</h1>
+      <div>
+        <Title>다시 만나서 반가워요!</Title>
         <SignUpMessage>
           <span>처음 오셨나요?</span>
           <Link to="/signup">회원가입 하러 가기</Link>
         </SignUpMessage>
         <Form onSubmit={onSubmit}>
-          <Form.Input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.currentTarget.value)}
-            required
-          />
-          <Form.Input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.currentTarget.value)}
-            required
-          />
+          <InputWrapper>
+            <Form.Label>email</Form.Label>
+            <Form.Input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.currentTarget.value)}
+              required
+            />
+          </InputWrapper>
+          <InputWrapper>
+            <Form.Label>password</Form.Label>
+            <Form.Input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.currentTarget.value)}
+              required
+            />
+          </InputWrapper>
           <Form.Button type="submit" fullWidth size="large" disabled={true}>
             로그인
           </Form.Button>
         </Form>
-      </FormWrapper>
+      </div>
       <ImageWrapper>
         <img src="images/heart.webp" alt="red heart" />
       </ImageWrapper>
@@ -76,24 +82,40 @@ function Login() {
 
 export default Login;
 
-const FormWrapper = styled.div`
-  h1 {
-    font-size: 3rem;
-    margin: 0 0 2rem 0;
-    white-space: nowrap;
-    transition: all 0.5s;
-    @media screen and (max-width: 960px) {
-      white-space: initial;
-      font-size: 2.8rem;
-    }
-
-    @media screen and (max-width: 539px) {
-      padding-left: 50px;
-      font-size: 2.3rem;
-    }
+const Title = styled.h1`
+  font-size: 5em;
+  font-weight: 600;
+  margin: 0 0 2rem 0;
+  white-space: nowrap;
+  transition: all 0.5s;
+  @media screen and (max-width: 960px) {
+    white-space: initial;
+    font-size: 4rem;
   }
-  & input {
-    margin: 1.2rem 0;
+  @media screen and (max-width: 850px) {
+    padding-left: 80px;
+    font-size: 4rem;
+  }
+  @media screen and (max-width: 539px) {
+    padding-left: 50px;
+    font-size: 3.3rem;
+  }
+`;
+
+const InputWrapper = styled.div`
+  background: ${({ theme }) => theme.color.white_alpha_30};
+  transition: all 0.3s;
+  border: 1px solid ${({ theme }) => theme.color.gray};
+  border-radius: 10px;
+  padding: 7px 16px 5px 16px;
+  margin: 1.2rem 0;
+
+  &.focus,
+  &:hover {
+    border: 1px solid ${({ theme }) => theme.color.primary};
+    label {
+      color: ${({ theme }) => theme.color.primary};
+    }
   }
 `;
 
@@ -102,7 +124,7 @@ const SignUpMessage = styled.div`
   margin: 1rem 0;
   a {
     font-size: inherit;
-    color: var(--color-primary);
+    color: ${({ theme }) => theme.color.primary};
     padding-left: 5px;
     display: inline-block;
 

@@ -7,7 +7,7 @@ const AuthLayout = () => {
     <AuthLayoutWrapper>
       <header>
         <div>
-          <Link to="/login">My Todo</Link>
+          <Logo to="/login">My Todo</Logo>
         </div>
       </header>
       <main>
@@ -27,17 +27,17 @@ const AuthLayoutWrapper = styled.div`
 
   header {
     padding: 2rem 0;
-
-    div {
-      font-size: 2rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: var(--color-primary);
-    }
   }
 
   main {
     min-height: calc(100vh - 107px - 2rem);
     height: 1px;
   }
+`;
+
+const Logo = styled(Link)`
+  font-size: 3rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.color.primary};
 `;
